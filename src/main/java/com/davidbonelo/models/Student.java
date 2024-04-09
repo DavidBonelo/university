@@ -2,6 +2,9 @@ package com.davidbonelo.models;
 
 import net.datafaker.Faker;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 public class Student {
@@ -13,6 +16,27 @@ public class Student {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
+    }
+
+    public static Student createFakeStudent(Faker faker) {
+        faker = faker == null ? new Faker() : faker; // new faker if didn't receive one
+        return new Student(faker.idNumber().hashCode(), faker.name().firstName(),
+                faker.name().lastName());
+    }
+
+    public static List<Student> createFakeStudents(int amount) {
+        Faker faker = new Faker(new Locale("es"));
+        List<Student> students = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            students.add(Student.createFakeStudent(faker));
+        }
+        return students;
+    }
+
+    public static void printStudentsList(Collection<Student> students) {
+        System.out.println("____________________________________________");
+        students.forEach(System.out::println);
+        System.out.println("____________________________________________");
     }
 
     public int getId() {
@@ -43,18 +67,8 @@ public class Student {
         return name + " " + lastName;
     }
 
-    public static Student createFakeStudent() {
-        Faker faker = new Faker(new Locale("es" ));
-        return new Student(faker.idNumber().hashCode(), faker.name().firstName(),
-                faker.name().lastName());
-    }
-
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return "Student{" + "id=" + id + ", name='" + name + '\'' + ", lastName='" + lastName + '\'' + '}';
     }
 }

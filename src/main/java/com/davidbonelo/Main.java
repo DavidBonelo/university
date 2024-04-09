@@ -4,15 +4,19 @@ import com.davidbonelo.models.Class;
 import com.davidbonelo.models.Student;
 import com.davidbonelo.models.University;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
         University university = new University("Software Kaizen University");
-        List<Class> clases = createFakeClasses();
+        runDemo(university);
+    }
+
+    private static void runDemo(University university) {
+        List<Class> clases = Class.createFakeClasses(10);
         university.setClasses(clases);
-        List<Student> students = createFakeStudents();
+        List<Student> students = Student.createFakeStudents(30);
 
         // Every student is attending a class
         System.out.println("Students starting to enter to their classes");
@@ -38,21 +42,6 @@ public class Main {
         anotherRandomClass.printStudents();
     }
 
-    private static List<Class> createFakeClasses() {
-        List<Class> classes = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            classes.add(Class.createFakeClass());
-        }
-        return classes;
-    }
-
-    private static List<Student> createFakeStudents() {
-        List<Student> students = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            students.add(Student.createFakeStudent());
-        }
-        return students;
-    }
 
     private static <T> T getRandomItem(List<T> list) {
         int randomIdx = (int) (Math.random() * list.size());

@@ -4,6 +4,7 @@ import net.datafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Class {
     private final List<Student> students;
@@ -17,11 +18,20 @@ public class Class {
         this.students = new ArrayList<>();
     }
 
-    public static Class createFakeClass() {
-        Faker faker = new Faker();
-        String courseNmae = faker.educator().subjectWithNumber();
-        courseNmae = courseNmae.substring(0, courseNmae.length() - 4);
-        return new Class(faker.idNumber().hashCode(), courseNmae);
+    public static Class createFakeClass(Faker faker) {
+        faker = faker == null ? new Faker() : faker; // new faker if didn't receive one
+        String courseName = faker.educator().subjectWithNumber();
+        courseName = courseName.substring(0, courseName.length() - 4);
+        return new Class(faker.idNumber().hashCode(), courseName);
+    }
+
+    public static List<Class> createFakeClasses(int amount) {
+        Faker faker = new Faker(new Locale("es"));
+        List<Class> classes = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            classes.add(Class.createFakeClass(faker));
+        }
+        return classes;
     }
 
     public int getId() {
